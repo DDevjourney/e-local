@@ -1,6 +1,6 @@
 # E-Local — Gestor de pedidos
 
-Panel de gestión interno y API REST para un pequeño comercio, construido con Laravel como proyecto de aprendizaje.
+Panel de gestión interno y API REST para un pequeño comercio, construido con Laravel como proyecto de aprendizaje. Render y Aiven.
 
 ## Funcionalidades
 
