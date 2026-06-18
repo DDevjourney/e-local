@@ -12,10 +12,6 @@ COPY . .
 
 RUN composer install --optimize-autoloader --no-dev
 
-RUN php artisan key:generate
-RUN php artisan config:cache
-RUN php artisan route:cache
-
 EXPOSE 8000
 
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
