@@ -10,6 +10,7 @@ class LineaPedido extends Model
 {
 
     protected $fillable = ['pedido_id', 'producto_id', 'cantidad', 'precio_unitario'];
+    protected $table = 'lineas_pedido';
     public function pedido()
     {
         return $this->belongsTo(Pedido::class);
