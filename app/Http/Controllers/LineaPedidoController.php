@@ -49,7 +49,7 @@ class LineaPedidoController extends Controller
         );
 
 
-        return redirect()->route('pedido.show', $request->pedido_id);
+        return redirect()->route('pedido.show', $request->pedido_id)->with('success', 'Producto añadido al pedido.');
     }
 
     /**

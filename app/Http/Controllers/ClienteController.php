@@ -39,7 +39,7 @@ class ClienteController extends Controller
             $request->only('nombre', 'email', 'telefono')
         );
 
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')->with('success', 'Cliente creado correctamente.');
     }
 
     /**
@@ -68,13 +68,13 @@ class ClienteController extends Controller
         $cliente->update(
             $request->only('nombre', 'email', 'telefono')
         );
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')->with('success', 'Cliente actualizado correctamente.');
     }
 
     public function destroy(Cliente $cliente)
     {
         $cliente->delete();
-        return redirect()->route('cliente.index');
+        return redirect()->route('cliente.index')->with('success', 'Cliente eliminado.');
     }
 }
 

@@ -39,7 +39,7 @@ class CategoriaController extends Controller
             $request->only('nombre', 'descripcion')
         );
 
-        return redirect()->route('categoria.index');
+        return redirect()->route('categoria.index')->with('success', 'Categoría creada correctamente.');
     }
 
     /**
@@ -66,15 +66,21 @@ class CategoriaController extends Controller
         $categoria->update(
             $request->only('nombre', 'descripcion')
         );
-        return redirect()->route('categoria.index');
+        return redirect()->route('categoria.index')->with('success', 'Categoría actualizada correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categoria $categoria)
-    {
-        $categoria->delete();
-        return redirect()->route('categoria.index');
+public function destroy(Categoria $categoria)
+{
+    if ($categoria->productos()->count() > 0) {
+        return redirect()->route('categoria.index')
+            ->with('error', 'No se puede eliminar esta categoría porque tiene productos asociados.');
     }
+
+    $categoria->delete();
+    return redirect()->route('categoria.index')
+        ->with('success', 'Categoría eliminada correctamente.');
+}
 }

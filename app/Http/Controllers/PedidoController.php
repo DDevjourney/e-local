@@ -42,7 +42,7 @@ class PedidoController extends Controller
             $request->only('cliente_id', 'fecha', 'estado')
         );
 
-        return redirect()->route('pedido.show', ['pedido' => $pedido]);
+        return redirect()->route('pedido.show', ['pedido' => $pedido])->with('success', 'Pedido creado correctamente.');
     }
 
     /**

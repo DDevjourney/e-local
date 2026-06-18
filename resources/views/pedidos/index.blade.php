@@ -1,57 +1,42 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                Pedidos
-            </h2>
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Pedidos</h2>
             <a href="{{ route('pedido.create') }}"
-               class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition">
-                + Nuevo pedido
+               class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-accent-600 hover:bg-accent-700 dark:bg-accent-500 dark:hover:bg-accent-400 text-white text-sm font-medium transition-colors">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/></svg>
+                Nuevo pedido
             </a>
         </div>
     </x-slot>
 
     <div class="py-8">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-gray-50 dark:bg-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-900/40">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Cliente</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Fecha</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Estado</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Acciones</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Cliente</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Fecha</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Estado</th>
+                            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-700/60">
                         @forelse ($pedidos as $pedido)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition">
-                                <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                    {{ $pedido->cliente->nombre }}
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                    {{ $pedido->fecha }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                        {{ $pedido->estado === 'completado' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-white' : '' }}
-                                        {{ $pedido->estado === 'enviado' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 text-white' : '' }}
-                                        {{ $pedido->estado === 'pendiente' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 text-white' : '' }}">
-                                        {{ ucfirst($pedido->estado) }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-right">
-                                    <a href="{{ route('pedido.show', $pedido) }}"
-                                       class="inline-flex items-center px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900 dark:hover:bg-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-medium rounded-md transition">
-                                        Ver detalle
-                                    </a>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $pedido->cliente->nombre }}</td>
+                                <td class="px-6 py-4 text-sm tabular-nums text-gray-700 dark:text-gray-300">{{ $pedido->fecha }}</td>
+                                <td class="px-6 py-4"><x-status-badge :estado="$pedido->estado" /></td>
+                                <td class="px-6 py-4 text-right text-sm whitespace-nowrap">
+                                    <a href="{{ route('pedido.show', $pedido) }}" class="font-medium text-accent-700 dark:text-accent-400 hover:text-accent-800 dark:hover:text-accent-300 transition-colors">Ver detalle</a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="px-6 py-10 text-center text-sm text-gray-500 dark:text-gray-400">
+                                <td colspan="4" class="px-6 py-12 text-center text-sm text-gray-500 dark:text-gray-400">
                                     No hay pedidos todavía.
-                                    <a href="{{ route('pedido.create') }}" class="text-indigo-500 hover:underline ml-1">Crea el primero.</a>
+                                    <a href="{{ route('pedido.create') }}" class="text-accent-700 dark:text-accent-400 hover:underline ml-1">Crea el primero.</a>
                                 </td>
                             </tr>
                         @endforelse

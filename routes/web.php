@@ -6,6 +6,10 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LineaPedidoController;
+use App\Models\Producto;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,7 +17,12 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', [
+        'totalProductos' => Producto::count(),
+        'totalClientes' => Cliente::count(),
+        'totalPedidos' => Pedido::count(),
+        'totalCategorias' => Categoria::count(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

@@ -44,7 +44,7 @@ class ProductoController extends Controller
             $request->only('nombre', 'precio', 'stock', 'categoria_id')
         );
 
-        return redirect()->route('producto.index');
+        return redirect()->route('producto.index')->with('success', 'Producto creado correctamente.');
     }
 
     /**
@@ -76,15 +76,21 @@ class ProductoController extends Controller
         $producto->update(
             $request->only('nombre', 'precio', 'stock', 'categoria_id')
         );
-        return redirect()->route('producto.index');
+        return redirect()->route('producto.index')->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
-    {
-        $producto->delete();
-        return redirect()->route('producto.index');
+public function destroy(Producto $producto)
+{
+    if ($producto->lineasPedido()->count() > 0) {
+        return redirect()->route('producto.index')
+            ->with('error', 'No se puede eliminar este producto porque tiene pedidos asociados.');
     }
+
+    $producto->delete();
+    return redirect()->route('producto.index')
+        ->with('success', 'Producto eliminado correctamente.');
+}
 }
